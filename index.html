@@ -32,19 +32,84 @@
               <a class='btn' href='upload.html'>Get Started</a>
             </div>
           </div>
-
+          <div class="container">
+            <!-- Page Content goes here -->
             <p>This app shows basics of Firebase with Javascript. Inspect page and view console to see info.</p>
+          
+            
+            <!--
             <button class='btn' onclick="signin()">Sign in</button>
             <button class='btn' onclick="getData()">Get data</button>
             <button class='btn' onclick="setData()">Set data</button>
             <button class='btn' onclick="updateData()">Update data</button>
             <button class='btn' onclick="pushData()">Push data</button>
             <button class='btn' onclick="removeData()">Remove data</button>
-            <div id="info"></div>
+            <div id="info"></div> -->
+
+            <div class="row">
+                <div class="col s6">
+                    <h2>Upload File</h2>
+                    <form action="#">
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>Select File</span>
+                                <input type="file" class="file-select " accept="image/*"/> <!--asking to upload image-->
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                            <div id="filesubmit">    
+                                <button class="file-submit btn">SUBMIT</button>
+                            </div>
+                        </div>   
+                    </form>
+                </div>
+            </div>
+            <div id="uid"></div>
+        </div>
     </body>
-    
-    <!-- HERE IS THE JAVASCRIPT TO CONNECT TO YOUR FIREBASE -->
+
     <script>
+    //IMAGE UPLOAD
+    const storageService = firebase.storage();
+    const storageRef = storageService.ref();
+    document.querySelector('.file-select').addEventListener('change', handleFileUploadChange);
+
+    document.querySelector('.file-submit').addEventListener('click', handleFileUploadSubmit);
+
+    let selectedFile;
+
+    function handleFileUploadChange(e) {
+        selectedFile = e.target.files[0];
+    }
+
+    function handleFileUploadSubmit(e) {
+        const uploadTask = storageRef.child(`images/${selectedFile.name}`).put(selectedFile); //create a child directory called images, and place the file inside this directory
+        uploadTask.on('state_changed', (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        }, (error) => {
+            // Handle unsuccessful uploads
+            console.log(error);
+        }, () => {
+            // Do something once upload is complete
+            console.log('success');
+        });
+    }
+           
+    // Check to see if you are logged in
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user == null) {
+            document.getElementById("uid").innerHTML = "not logged in";
+            return;
+        } else {
+            userId = user.uid; // you can also get .displayName, .photoURL, .email
+            //document.getElementById("uid").innerHTML = userId; // display Google uid on page
+            
+        } // end user null check
+    }); // end check auth state
+
+    // HERE IS THE JAVASCRIPT TO CONNECT TO YOUR FIREBASE
+    
         // Your web app's Firebase configuration
         var config = {
             apiKey: "AIzaSyD0FjPIZoXNXzUsImWttXhLiL0DTqhzNgE",
