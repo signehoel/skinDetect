@@ -14,33 +14,38 @@
     <body >
         <nav>
             <div class="nav-wrapper">
-              <a href="#" class="brand-logo" style="padding-left:1%">Logo</a>
+              <a href="#" class="brand-logo" style='padding-left:1%'>Logo</a>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="sass.html">Sass</a></li>
                 <li><a href="badges.html">Components</a></li>
                 <li><a href="collapsible.html">JavaScript</a></li>
               </ul>
             </div>
-          </nav>
+        </nav>
 
-          <div class="row">
-            <div class="col s12 m6">
-              <div class="card">
-                <div class="card-content">
-                  <span class="card-title">Upload Image</span>
-                  <div id="filesubmit">
-                    <input type="file" class="file-select " accept="image/*"/> <!--asking to upload image-->
-                  </div>
-                </div>
-                <div class="card-action">
-                    <button class="file-submit btn">SUBMIT</button>
-                </div>
-              </div>
+        <div class="row">
+            <div class="col s6">
+                <h2>Upload File</h2>
+                <form action="#">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Select File</span>
+                            <input type="file" class="file-select " accept="image/*"/> <!--asking to upload image-->
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                        <div id="filesubmit">    
+                            <button class="file-submit btn">SUBMIT</button>
+                        </div>
+                    </div>   
+                </form>
             </div>
-          </div>
-
+        </div>
+                
+                  
           
-        <p id="uid"></p>
+        <div id="uid"></div>
 
     </body>
     
@@ -59,7 +64,7 @@
           };
 
         firebase.initializeApp(config);
-        
+
         //IMAGE UPLOAD
         const storageService = firebase.storage();
         const storageRef = storageService.ref();
@@ -93,7 +98,7 @@
                 return;
             } else {
                 userId = user.uid; // you can also get .displayName, .photoURL, .email
-                document.getElementById("uid").innerHTML = userId; // display Google uid on page
+                //document.getElementById("uid").innerHTML = userId; // display Google uid on page
                 
             } // end user null check
         }); // end check auth state
