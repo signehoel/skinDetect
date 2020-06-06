@@ -1,215 +1,161 @@
-<!-- Welcome to some sample code to control your Firebase Database -->
-<!-- HERE IS YOUR HTML TO SET UP YOUR PAGE -->
-<html>
-    <head>
-        <!-- HERE ARE YOUR FIREBASE and GOOGLE AUTHENICATION IMPORTS -->
-        <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase.js"></script>
-        <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <link rel="stylesheet" href="main.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Image recognition</title>
+    <!-- Machine Learning Scripts for Image Classification -->
+    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <script src="https://unpkg.com/@tensorflow/tfjs-automl"></script>
+    <script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
 
-        <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-wrapper ">
+      <a href="#!" class="brand-logo white-text" style="margin-left: 1%;">SkinDetect</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="collapsible.html">DevPost</a></li>
+        <li><a href="https://github.com/signehoel/skinDetect">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="collapsible.html">DevPost</a></li>
+    <li><a href="https://github.com/signehoel/skinDetect">GitHub</a></li>
+  </ul>
+
+  <div class="hero-image">
+    <div class="hero-text">
+      <h1>Welcome to SkinDetect!</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">Ensure your health within seconds</h5>
+      </div>
+      <div class="row center">
+        <a href="#idImage" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block center">
+            <h2 class="brown-text"><i class="material-icons">camera_alt</i></h2>
+            <h5>Take a picture</h5>
+
+            <p class="light">Start off by taking a clear, close up picture of a skin lesion (mole) that is of concern.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block center">
+            <h2 class="brown-text"><i class="material-icons">attach_file</i></h2>
+            <h5>Upload it to SkinDetect</h5>
+
+            <p class="light">Use our tools below to quickly upload your photo so that it can be tested using our machine learning model.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block center">
+            <h2 class="brown-text"><i class="material-icons">access_time</i></h2>
+            <h5>Get results</h5>
+
+            <p class="light">Get our predicted diagnosis of your lesion within seconds.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="hero-image2">
+    <div class="hero-text">
+      <div class="row center">
         
-    </head>
-    <body >
-        <nav>
-            <div class="nav-wrapper">
-              <a href="#!" class="brand-logo" style="padding-left:1%"><img src="skindetect.png"></a>
-              <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-              <ul class="right hide-on-med-and-down">
-                <li><a href="sass.html">DevPost</a></li>
-                <li><a href="https://github.com/signehoel/skinDetect">GitHub</a></li>
-              </ul>
-            </div>
-        </nav>
-        
-          <ul class="sidenav" id="mobile-demo">
-            <li><a href="sass.html">Sass</a></li>
-            <li><a href="badges.html">Components</a></li>
-            <li><a href="collapsible.html">Javascript</a></li>
-            <li><a href="mobile.html">Mobile</a></li>
+        <h5 class="header col s12 light">1 in 5 Americans will develop skin cancer by the age of 70.</h5>
+        <h5 class="header col s12 light">Having 5 or more sunburns doubles your risk for melanoma.</h5>
+        <h5 class="header col s12 light">More than 2 people die of skin cancer in the U.S. every hour.</h5>
+        <h5 class="header col s12 light"><u>When detected early, the 5-year survival rate for melanoma is <strong>99 percent.</strong></u></h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 left-align light">
+          <br>
+            Skin cancer is the most common of all cancer types. In fact, about one third of all new cases of cancer in Canada are skin cancers, and the rate continues to rise.
+            <br></br>
+            Melanoma is a cancer that starts in the cells that produce melanin, called melanocytes. Most melanocytes are located in the skin; almost all melanomas are skin cancers. It occurs when a melanocyte grows uncontrollably and develops into a tumour. Melanoma is most frequently found on the back of men and on the back and legs of women. It is the least common, but most serious, type of skin cancer.
+            <br></br>
+            Moles, spots, and growths on your skin are usually harmless - but not always. That is why it is important to look at the skin all over your body once a month and have a doctor check you over once a year.
+            <br></br>
+            Look for the following "ABCDE" warning signs as suggested by Public Health Canada: 
+          <ul class="left-align light">
+            <li class="list"><strong>A</strong>symmetry. Do the two halves not match if you imagine drawing a line through the mole?</li>
+            <li class="list"><strong>B</strong>orders. Are the edges uneven, scalloped or notched?</li>
+            <li class="list"><strong>C</strong>olours. Are there many shades (brown, red, white, blue or black)?</li>
+            <li class="list"><strong>D</strong>iameter greater than 6mm. Is the mole the size of a pencil eraser or larger?</li>
+            <li class="list"><strong>E</strong>volution. Has there been a change in size, shape, color, or height? Has a new symptom developed (like bleeding, itching or crusting)?</li>
           </ul>
+            If you find any of these warning signs, see your health care provider as soon as possible. Learn more about skin cancer and its warning signs on <a href = "https://www.canada.ca/en/public-health/services/sun-safety/skin-cancer.html">Canada.ca</a>.
+            <br></br>
+            We do realize, however, that it may be difficult to evaluate yourself for these warning signs. Especially amidst this global pandemic, most would like to avoid a trip to the doctors if possible. <strong>SkinDetect</strong> is the perfect tool to give users insight into how to proceed and whether or not to seek medical treatment.
+          
+          <!--<div id='console'></div>-->
+          <div id="chart_div"></div>
+          
+        </div>
+      </div>
 
-          <div class="hero-image">
-            <div class="hero-text">
-              <h1>Welcome to SkinDetect!</h1>
-              <p>Ensure your health in a matter of seconds.</p>
-              <a class='btn' href='upload.html'>Get Started</a>
+      <div class="row">
+        <div class="col m6 s12">
+          <br>
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Upload a File</span>
+              <img id='idImage' style="width: 224px; height: 224px;">
+              <script src="index.js"></script>
+              <form action="#">
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Select File</span>
+                        <input type="file" class= "file-select" onchange="showFiles(event)" accept=".png, .jpg, .jpeg"> <!--asking to upload image-->
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>   
+              </form>
+              
             </div>
           </div>
-          <div class="container" style="margin-top:25px">
-            <!-- Page Content goes here -->
-            
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin porttitor, enim ut euismod maximus, dui dolor vehicula ipsum, congue pellentesque neque purus in orci. In hac habitasse platea dictumst. Nulla facilisi. Sed ipsum est, dignissim ac tempus sit amet, sodales non massa. Nulla blandit magna in magna posuere, vel mollis erat mollis. Donec non ornare quam, eu molestie sapien. Donec aliquet libero elit, quis rutrum massa tincidunt ut. Suspendisse vitae sagittis eros. Praesent ullamcorper dui dictum tellus dictum eleifend. Donec tincidunt nisl id gravida mattis.</p>
-            
-            <p>Nunc facilisis tincidunt nulla in commodo. Maecenas interdum ligula volutpat fringilla porta. Vivamus condimentum neque sed nibh porttitor, sed pharetra purus ultricies. Duis sed mi eget elit semper scelerisque. Maecenas tempus luctus velit vel facilisis. Fusce ut turpis dictum, venenatis dui ac, finibus nunc. Sed lacinia sed justo quis sagittis. Sed ut placerat arcu. Maecenas finibus tristique nulla id imperdiet. Aliquam erat volutpat. Morbi porttitor lacus velit, a cursus lorem viverra id. Etiam sodales hendrerit molestie. Proin vel erat bibendum, venenatis nisi non, placerat quam. Quisque ac vulputate turpis.</p>     
-            
-            <p>Ut sed commodo augue. Phasellus auctor leo quis viverra convallis. Sed et molestie metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec ut dui vel purus consectetur tempus. Duis tristique sapien a turpis feugiat, a eleifend libero bibendum. Etiam sagittis orci odio, eu tempor massa dignissim sit amet. Sed porttitor ex ac semper viverra. Sed pretium ante nec ligula dapibus auctor. Suspendisse vulputate lectus ut quam viverra, in mollis magna lacinia. Cras eget tempor ligula. Sed sit amet placerat risus. Cras finibus est a posuere vulputate.</p>
-          
-            
-            <!--
-            <button class='btn' onclick="signin()">Sign in</button>
-            <button class='btn' onclick="getData()">Get data</button>
-            <button class='btn' onclick="setData()">Set data</button>
-            <button class='btn' onclick="updateData()">Update data</button>
-            <button class='btn' onclick="pushData()">Push data</button>
-            <button class='btn' onclick="removeData()">Remove data</button>
-            <div id="info"></div> -->
-            <div class="row">
-                <div class="col s12 m6">
-                  <div class="card">
-                    <div class="card-content">
-                      <span class="card-title">Upload File</span>
-                      <form>
-                        <div class="file-field input-field">
-                            <div class="btn">
-                                <span>Select File</span>
-                                <input type="file" class="file-select " accept="image/*"/> <!--asking to upload image-->
-                            </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text">
-                            </div>
-                            <div id="filesubmit">    
-                                <button class="file-submit btn waves-effect waves-light">SUBMIT
-                                </button>
-                            </div>
-                        </div>
-                      </form>    
-                    </div>
-                  </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col s6">
-                    <h2>Upload File</h2>
-                    <form action="#">
-                        <div class="file-field input-field">
-                            <div class="btn">
-                                <span>Select File</span>
-                                <input type="file" class="file-select " accept="image/*"/> <!--asking to upload image-->
-                            </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text">
-                            </div>
-                            <div id="filesubmit">    
-                                <button class="file-submit btn">SUBMIT</button>
-                            </div>
-                        </div>   
-                    </form>
-                </div>
-            </div>
-            <div id="uid"></div>
         </div>
-    </body>
+        <div class="col m6 s12">
+          <div id="results"></div>
+          <div id="predictions-malignant"></div>
+        </div>
+      </div>
 
-    <script>
-
-    // HERE IS THE JAVASCRIPT TO CONNECT TO YOUR FIREBASE
     
-        // Your web app's Firebase configuration
-        var config = {
-            apiKey: "AIzaSyD0FjPIZoXNXzUsImWttXhLiL0DTqhzNgE",
-            authDomain: "skin-lesion-classifier-8affe.firebaseapp.com",
-            databaseURL: "https://skin-lesion-classifier-8affe.firebaseio.com",
-            projectId: "skin-lesion-classifier-8affe",
-            storageBucket: "skin-lesion-classifier-8affe.appspot.com",
-            messagingSenderId: "877188134640",
-            appId: "1:877188134640:web:06b3996e1db00c59613435",
-            measurementId: "G-3Y4GEZ104Q"
-          };
-        firebase.initializeApp(config);
-        //IMAGE UPLOAD
-    const storageService = firebase.storage();
-    const storageRef = storageService.ref();
-    document.querySelector('.file-select').addEventListener('change', handleFileUploadChange);
-
-    document.querySelector('.file-submit').addEventListener('click', handleFileUploadSubmit);
-
-    let selectedFile;
-
-    function handleFileUploadChange(e) {
-        selectedFile = e.target.files[0];
-    }
-
-    function handleFileUploadSubmit(e) {
-        const uploadTask = storageRef.child(`images/${selectedFile.name}`).put(selectedFile); //create a child directory called images, and place the file inside this directory
-        uploadTask.on('state_changed', (snapshot) => {
-        // Observe state change events such as progress, pause, and resume
-        }, (error) => {
-            // Handle unsuccessful uploads
-            console.log(error);
-        }, () => {
-            // Do something once upload is complete
-            console.log('success');
-        });
-    }
-           
-    // Check to see if you are logged in
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user == null) {
-            document.getElementById("uid").innerHTML = "not logged in";
-            return;
-        } else {
-            userId = user.uid; // you can also get .displayName, .photoURL, .email
-            //document.getElementById("uid").innerHTML = userId; // display Google uid on page
-            
-        } // end user null check
-    }); // end check auth state
-               
-        // Check to see if you are logged in
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user == null) {
-                document.getElementById("uid").innerHTML = "not logged in";
-                return;
-            } else {
-                userId = user.uid; // you can also get .displayName, .photoURL, .email
-                document.getElementById("uid").innerHTML = userId; // display Google uid on page
-                
-            } // end user null check
-        }); // end check auth state
-        
-       // HERE IS THE FUNCTION TO SHOW HOW TO GET USER DATA
-       function getData() {
-           var userId = document.getElementById("uid").innerHTML;
-           firebase.database().ref('/tweets/' + userId).once('value', function(snapshot) {
-               console.log(snapshot.val());
-           });
-
-       }
-       
-       // HERE IS THE FUNCTION TO SHOW HOW TO SET/OVERWRITE USER DATA
-       function setData() {
-           var userId = document.getElementById("uid").innerHTML;
-           var js_time = Date.now();
-           firebase.database().ref('/tweets/' + userId).set({tweet:"Set over-writes", time: js_time}); 
-       }
-        
-       // HERE IS THE FUNCTION TO SHOW HOW TO SET/OVERWRITE USER DATA
-       function updateData() {
-           var userId = document.getElementById("uid").innerHTML;
-           firebase.database().ref('/tweets/' + userId).update({tweet:"Update replaces data, but will leave non replaced data as is"}); 
-       }
-         
-        // HERE IS THE FUNCTION TO SHOW HOW TO PUSH/ADD NEW USER DATA TO EXISTING DATABASE
-        function pushData() {
-            var userId = document.getElementById("uid").innerHTML;
-            var js_time = Date.now();
-            var tweetid = firebase.database().ref('tweets/' + userId + "/").push({tweet: "push adds to the nodes, a unique key/timestamp is also added", time: js_time});
-        }
-
-        // HERE IS THE FUNCTION TO SHOW HOW TO REMOVE USER DATA FROM EXISTING DATABASE - BE CAREFUL!
-        function removeData() {
-            var tweetid = firebase.database().ref('tweets/' + userId + "/").remove();
-        }
-        
-        function signin() {
-            var provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithRedirect(provider).then(function(result) { 
-                window.location.replace("fbtest.html");
-            });
-        }
-    </script>
+  </div>
+    
+</body>
+<script type="text/javascript">
+</script>
 </html>
