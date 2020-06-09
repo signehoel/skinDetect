@@ -42,7 +42,7 @@ function drawStacked(result) {
 
 async function app(){
     console.log('loading mobilenet...');
-    net = await tf.automl.loadImageClassification('model.json');
+    net = await tf.automl.loadImageClassification('./model.json');
     console.log('Sucessfully loaded model');
     await predice();
 }
