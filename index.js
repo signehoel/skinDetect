@@ -13,8 +13,10 @@ let net = null;
     app();
 }  
 
+//loads google charts
 google.charts.load('current', {packages: ['corechart', 'bar']});
 
+//This function is to draw a chart of the data. Not yet implemented successfully
 function drawStacked(result) {
     var data_ = Array((result.length + 1));
     data_[0] = ['clase','Probabilidad', { role: "style" }];
@@ -40,6 +42,7 @@ function drawStacked(result) {
     chart.draw(view, options);
   }
 
+//outputs to console 
 async function app(){
     console.log('loading mobilenet...');
     net = await tf.automl.loadImageClassification('./model.json');
@@ -47,24 +50,25 @@ async function app(){
     await predice();
 }
 
+//classifies image as malignant or benign based on tensorflow model
 async function predice(){
-    img = document.getElementById('idImage');
+    img = document.getElementById('idImage'); //grabbing image uploaded by user
     if (img.src != ""){
-        const result = await net.classify(img);
+        const result = await net.classify(img); //classifying the image
         //drawStacked(result);
         console.log(result);
-        var malignantNum = Math.round(result['0']['prob']*100);
+        var malignantNum = Math.round(result['0']['prob']*100); //making the result a percentage
         var finalResults = document.getElementById("results");
         finalResults.innerHTML = "<h4>Results</h4>";
         var text = document.getElementById("predictions-malignant")
         
+        //printing out the results to the page (depending on percentage)
         if (malignantNum > 50){
             text.innerHTML = "This skin lesion has a "+ malignantNum +"% chance of being malignant. We recommend going to see a specialist.";
         }
         else {
             text.innerHTML = "This skin lesion has a "+ malignantNum +"% chance of being malignant. It is unlikely that there is a need for concern.";
         }
-        //document.getElementById("predictions-malignant").innerText="Benign: "+Math.round(result['1']['prob']*100)+"%";
     }
 }
 
