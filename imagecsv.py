@@ -15,17 +15,11 @@ trainmalignant = "gs://skin-lesion-classifier-277418-vcm/skin-cancer-malignant-v
 for benigntest in os.listdir(benigntestdirectory):
     print(testbenign + benigntest + ",benign")
 
-print()
-
 for malignanttest in os.listdir(malignanttestdirectory):
     print(testmalignant + malignanttest + ",malignant")
 
-print()
-
 for benigntrain in os.listdir(benigntraindirectory):
     print(trainbenign + benigntrain + ",benign")
-
-print()
 
 for malignanttrain in os.listdir(malignanttraindirectory):
     print(trainmalignant + malignanttrain + ",malignant")
