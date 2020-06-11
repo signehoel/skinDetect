@@ -47,11 +47,11 @@ async function app(){
     console.log('loading mobilenet...');
     net = await tf.automl.loadImageClassification('./model.json');
     console.log('Sucessfully loaded model');
-    await predice();
+    await predict();
 }
 
 //classifies image as malignant or benign based on tensorflow model
-async function predice(){
+async function predict(){
     img = document.getElementById('idImage'); //grabbing image uploaded by user
     if (img.src != ""){
         const result = await net.classify(img); //classifying the image
