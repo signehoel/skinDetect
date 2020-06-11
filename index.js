@@ -1,7 +1,9 @@
 let net = null;
 
  function showFiles() {
-    // An empty img element
+   var finalResults = document.getElementById("results");
+   finalResults.innerHTML = "<h4>Processing...</h4>"; 
+   // An empty img element
     let demoImage = document.getElementById('idImage');
     // read the file from the user
     let file = document.querySelector('input[type=file]').files[0];
